@@ -5,6 +5,7 @@ type environmentConfig = Required<{
   POSTGRES_PASS: string;
   POSTGRES_USER: string;
   POSTGRES_HOST: string;
+  SECRET_KEY: string;
 }>;
 
 const config: environmentConfig = {
@@ -14,6 +15,7 @@ const config: environmentConfig = {
   POSTGRES_PASS: process.env.POSTGRES_PASS || 'postgres',
   POSTGRES_USER: process.env.POSTGRES_USER || 'postgres',
   POSTGRES_HOST: process.env.POSTGRES_HOST || 'localhost',
+  SECRET_KEY: process.env.SECRET_KEY || 'SECRET',
 };
 
 export default config;
