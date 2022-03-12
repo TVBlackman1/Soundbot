@@ -3,7 +3,6 @@ import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {SequelizeModule} from '@nestjs/sequelize';
 import {UsersModule} from './users/users.module';
-import config from './config';
 import {ConfigModule} from '@nestjs/config';
 import {User} from './users/users.model';
 import {AuthModule} from './auth/auth.module';
@@ -15,11 +14,11 @@ import {AuthModule} from './auth/auth.module';
     }),
     SequelizeModule.forRoot({
       dialect: 'postgres',
-      host: config.POSTGRES_HOST,
-      port: config.POSTGRES_PORT,
-      username: config.POSTGRES_USER,
-      password: config.POSTGRES_PASS,
-      database: config.POSTGRES_DBNAME,
+      host: process.env.POSTGRES_HOST || 'localhost',
+      port: Number(process.env.POSTGRES_PORT) || 5432,
+      username: process.env.POSTGRES_USER || 'postgres',
+      password: process.env.POSTGRES_PASS || 'postgres',
+      database: process.env.POSTGRES_DBNAME || 'sound_bot',
       models: [User],
       autoLoadModels: true,
     }),
