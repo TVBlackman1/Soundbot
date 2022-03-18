@@ -3,19 +3,11 @@ import {UsersController} from './users.controller';
 import {UsersService} from './users.service';
 import {SequelizeModule} from '@nestjs/sequelize';
 import {User} from './users.model';
-import {JwtStrategy} from '../auth/jwt.strategy';
-import {JwtModule} from '@nestjs/jwt';
-
-const SECRET_KEY = process.env.SECRET_KEY || 'SECRET';
+import {JwtStrategy, JwtLocalModule} from '../auth/jwt.strategy';
 
 @Module({
   controllers: [UsersController],
   providers: [UsersService, JwtStrategy],
-  imports: [
-    SequelizeModule.forFeature([User]),
-    JwtModule.register({
-      secret: SECRET_KEY,
-    }),
-  ],
+  imports: [SequelizeModule.forFeature([User]), JwtLocalModule],
 })
 export class UsersModule {}
