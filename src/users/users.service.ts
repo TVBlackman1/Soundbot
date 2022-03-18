@@ -1,4 +1,4 @@
-import {Injectable, UnauthorizedException} from '@nestjs/common';
+import {Injectable, UnauthorizedException, ConflictException} from '@nestjs/common';
 import {InjectModel} from '@nestjs/sequelize';
 import {User} from './users.model';
 import {CreateUserDto} from './dto/create-user';
@@ -8,12 +8,13 @@ import {JwtFormat} from './dto/jwt-format';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectModel(User) private userRepository: typeof User,
-    private jwtService: JwtService,
-  ) {}
+  constructor(@InjectModel(User) private userRepository: typeof User, private jwtService: JwtService) {}
 
   async createUser(dto: CreateUserDto) {
+    const userInRepository = await this.findUserByQuery({login: dto.login});
+    if (userInRepository) {
+      throw new ConflictException('User already exists');
+    }
     const user = await this.userRepository.create(dto);
     return user;
   }
@@ -39,7 +40,7 @@ export class UsersService {
     };
   }
 
-  async findUserByQuery({email, login}: {email?: string; login?: string}) {
+  async findUserByQuery({email, login}: {email?: string; login?: string}, fields: string[] = []): Promise<User> {
     const query: QueryFindUserDto = {};
     if (login) {
       query.login = login;
@@ -48,6 +49,10 @@ export class UsersService {
     } else {
       throw new Error('Not valid user query');
     }
-    this.userRepository.findOne({where: {...query}});
+    const selectedAttributes = fields.length > 0 ? fields : {exclude: ['password']};
+    return await this.userRepository.findOne({
+      where: {...query},
+      attributes: selectedAttributes,
+    });
   }
 }
