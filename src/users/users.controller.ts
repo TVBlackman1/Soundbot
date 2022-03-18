@@ -4,6 +4,7 @@ import {UsersService} from './users.service';
 import {ApiOperation, ApiResponse, ApiTags} from '@nestjs/swagger';
 import {User} from './users.model';
 import {AuthGuard} from '@nestjs/passport';
+import {LoginUserDto} from './dto/login-user';
 
 @ApiTags('Пользователи')
 @Controller('users')
@@ -15,6 +16,11 @@ export class UsersController {
   @Post()
   async create(@Body() userDto: CreateUserDto) {
     return await this.usersService.createUser(userDto);
+  }
+
+  @Post('login')
+  async login(@Body() userDto: LoginUserDto) {
+    return await this.usersService.login(userDto.login, userDto.password);
   }
 
   @ApiOperation({summary: 'Список пользователей'})
