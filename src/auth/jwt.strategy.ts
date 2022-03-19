@@ -6,7 +6,7 @@ import {JwtModule} from '@nestjs/jwt';
 const SECRET_KEY = process.env.SECRET_KEY || 'SECRET';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt-user') {
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromHeader('access_token'),

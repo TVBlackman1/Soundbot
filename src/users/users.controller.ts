@@ -3,8 +3,8 @@ import {CreateUserDto} from './dto/create-user';
 import {UsersService} from './users.service';
 import {ApiOperation, ApiResponse, ApiTags} from '@nestjs/swagger';
 import {User} from './users.model';
-import {AuthGuard} from '@nestjs/passport';
 import {LoginUserDto} from './dto/login-user';
+import {JwtAuthGuard} from '../auth/jwt.guard';
 
 @ApiTags('Пользователи')
 @Controller('users')
@@ -25,10 +25,9 @@ export class UsersController {
 
   @ApiOperation({summary: 'Список пользователей'})
   @ApiResponse({status: 200, type: [User]})
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtAuthGuard)
   @Get()
   async getList(@Request() req) {
-    console.log(req.user);
     return await this.usersService.getList();
   }
 }
