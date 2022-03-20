@@ -20,6 +20,7 @@ import {User} from './users/users.model';
       database: process.env.POSTGRES_DBNAME || 'sound_bot',
       models: [User],
       autoLoadModels: true,
+      synchronize: true,
     }),
     UsersModule,
   ],

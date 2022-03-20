@@ -5,6 +5,8 @@ import {ApiOperation, ApiResponse, ApiTags} from '@nestjs/swagger';
 import {User} from './users.model';
 import {LoginUserDto} from './dto/login-user';
 import {JwtAuthGuard} from '../auth/jwt.guard';
+import {Roles, RolesGuard} from '../auth/roles.middleware';
+import {Role} from '../constants/role.enum';
 
 @ApiTags('Пользователи')
 @Controller('users')
@@ -25,9 +27,11 @@ export class UsersController {
 
   @ApiOperation({summary: 'Список пользователей'})
   @ApiResponse({status: 200, type: [User]})
+  @UseGuards(RolesGuard)
+  @Roles(Role.Admin)
   @UseGuards(JwtAuthGuard)
   @Get()
-  async getList(@Request() req) {
+  async getList() {
     return await this.usersService.getList();
   }
 }

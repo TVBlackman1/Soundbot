@@ -1,10 +1,11 @@
-import {Injectable, UnauthorizedException, ConflictException} from '@nestjs/common';
+import {Injectable, UnauthorizedException, ConflictException, BadRequestException} from '@nestjs/common';
 import {InjectModel} from '@nestjs/sequelize';
 import {User} from './users.model';
 import {CreateUserDto} from './dto/create-user';
 import {QueryFindUserDto} from './dto/query-find-user';
 import {JwtService} from '@nestjs/jwt';
 import {JwtFormat} from './dto/jwt-format';
+import {Role} from '../constants/role.enum';
 
 @Injectable()
 export class UsersService {
@@ -14,6 +15,10 @@ export class UsersService {
     const userInRepository = await this.findUserByQuery({login: dto.login});
     if (userInRepository) {
       throw new ConflictException('User already exists');
+    }
+    const isValidRole = [Role.Admin.toString(), Role.User.toString()].includes(dto.role);
+    if (dto.role && !isValidRole) {
+      throw new BadRequestException(`Not valid role: ${dto.role}`);
     }
     const user = await this.userRepository.create(dto);
     return user;
@@ -40,9 +45,11 @@ export class UsersService {
     };
   }
 
-  async findUserByQuery({email, login}: {email?: string; login?: string}, fields: string[] = []): Promise<User> {
+  async findUserByQuery({id, email, login}: QueryFindUserDto, fields: string[] = []): Promise<User> {
     const query: QueryFindUserDto = {};
-    if (login) {
+    if (id) {
+      query.id = id;
+    } else if (login) {
       query.login = login;
     } else if (email) {
       query.email = email;

@@ -5,4 +5,5 @@ export class QueryFindUserDto {
   email?: string;
   @ApiProperty({example: 'login', required: false})
   login?: string;
+  id?: number;
 }
