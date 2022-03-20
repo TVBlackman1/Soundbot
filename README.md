@@ -6,4 +6,4 @@ And pick hook of song for playing it. It's necessary for TRPG/TTRPG games.
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+SoundBot is [MIT licensed](LICENSE).

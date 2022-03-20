@@ -1,8 +1,12 @@
-import {Body, Controller, Get, Post} from '@nestjs/common';
+import {Body, Controller, Get, Post, UseGuards} from '@nestjs/common';
 import {CreateUserDto} from './dto/create-user';
 import {UsersService} from './users.service';
 import {ApiOperation, ApiResponse, ApiTags} from '@nestjs/swagger';
 import {User} from './users.model';
+import {LoginUserDto} from './dto/login-user';
+import {JwtAuthGuard} from '../auth/jwt.guard';
+import {Roles, RolesGuard} from '../auth/roles.middleware';
+import {Role} from '../constants/role.enum';
 
 @ApiTags('Пользователи')
 @Controller('users')
@@ -12,14 +16,22 @@ export class UsersController {
   @ApiOperation({summary: 'Создание пользователя'})
   @ApiResponse({status: 200, type: User})
   @Post()
-  create(@Body() userDto: CreateUserDto) {
-    return this.usersService.createUser(userDto);
+  async create(@Body() userDto: CreateUserDto) {
+    return await this.usersService.createUser(userDto);
+  }
+
+  @Post('login')
+  async login(@Body() userDto: LoginUserDto) {
+    return await this.usersService.login(userDto.login, userDto.password);
   }
 
   @ApiOperation({summary: 'Список пользователей'})
   @ApiResponse({status: 200, type: [User]})
+  @UseGuards(RolesGuard)
+  @Roles(Role.Admin)
+  @UseGuards(JwtAuthGuard)
   @Get()
-  getList() {
-    return this.usersService.getList();
+  async getList() {
+    return await this.usersService.getList();
   }
 }

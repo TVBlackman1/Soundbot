@@ -1,5 +1,6 @@
 import {Column, DataType, Model, Table} from 'sequelize-typescript';
 import {ApiProperty} from '@nestjs/swagger';
+import {Role} from '../constants/role.enum';
 
 interface UserCreationAttributes {
   login: string;
@@ -31,6 +32,13 @@ export class User extends Model<User, UserCreationAttributes> {
     type: DataType.STRING,
   })
   email: string;
+
+  @ApiProperty({example: Role.User})
+  @Column({
+    type: DataType.STRING,
+    defaultValue: Role.User,
+  })
+  role: string;
 
   @ApiProperty({example: 'qwerty'})
   @Column({
