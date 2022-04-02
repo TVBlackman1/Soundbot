@@ -7,6 +7,7 @@ import {User} from './users/users.model';
 import {ConfigModule} from './config/config.module';
 import {ConfigService} from '@nestjs/config';
 import {ConfigFields} from './config/config.constants';
+import {MusicTrackModule} from './music-track/music-track.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import {ConfigFields} from './config/config.constants';
     }),
     UsersModule,
     ConfigModule,
+    MusicTrackModule,
   ],
   controllers: [AppController,],
   providers: [AppService,],
