@@ -3,16 +3,19 @@ import {MusicTrackService} from './music-track.service';
 import {FileInterceptor} from '@nestjs/platform-express';
 import {JwtAuthGuard} from '../auth/jwt.guard';
 import {User} from '../users/users.model';
+import {ApiOperation, ApiTags} from '@nestjs/swagger';
 
+@ApiTags('Треки')
 @Controller('music-track')
 export class MusicTrackController {
   constructor(private musicTrackService: MusicTrackService) {}
   
-  @Post('/download')
+  @ApiOperation({summary: 'Добавление трека пользователем',})
+  @Post('/upload')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file'))
-  public downloadMusicTrack(@Req() req, @UploadedFile() file: Express.Multer.File) {
+  public async downloadMusicTrack(@Req() req, @UploadedFile() file: Express.Multer.File) {
     const user = req.user as User;
-    this.musicTrackService.download(user, file);
+    return await this.musicTrackService.download(user, file);
   }
 }
