@@ -6,8 +6,8 @@ import {User} from './users.model';
 import {JwtStrategy, JwtLocalModule} from '../auth/jwt.strategy';
 
 @Module({
-  controllers: [UsersController],
-  providers: [UsersService, JwtStrategy],
-  imports: [SequelizeModule.forFeature([User]), JwtLocalModule],
+  controllers: [UsersController,],
+  providers: [UsersService, JwtStrategy,],
+  imports: [SequelizeModule.forFeature([User,]), JwtLocalModule,],
 })
 export class UsersModule {}

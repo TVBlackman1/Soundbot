@@ -4,15 +4,15 @@ import {Injectable, UnauthorizedException} from '@nestjs/common';
 import {JwtModule} from '@nestjs/jwt';
 import {UsersService} from '../users/users.service';
 import {User} from '../users/users.model';
-
-const SECRET_KEY = process.env.SECRET_KEY || 'SECRET';
+import {ConfigService} from '@nestjs/config';
+import {ConfigFields} from '../config/config.constants';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt-user') {
-  constructor(private usersService: UsersService) {
+  constructor(private usersService: UsersService, private configService: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromHeader('access_token'),
-      secretOrKey: SECRET_KEY,
+      secretOrKey: configService.get(ConfigFields.SECRET_KEY),
       ignoreExpiration: true,
     });
   }
@@ -21,7 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt-user') {
     if (!payload.id) {
       throw new UnauthorizedException('Bad jwt payload');
     }
-    const user = await this.usersService.findUserByQuery({id: payload.id});
+    const user = await this.usersService.findUserByQuery({id: payload.id,});
     if (!user) {
       throw new UnauthorizedException('User is not found');
     }
@@ -29,6 +29,9 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt-user') {
   }
 }
 
-export const JwtLocalModule = JwtModule.register({
-  secret: SECRET_KEY,
+export const JwtLocalModule = JwtModule.registerAsync({
+  useFactory: async (configService: ConfigService) => ({
+    secret: configService.get(ConfigFields.SECRET_KEY),
+  }),
+  inject: [ConfigService,],
 });

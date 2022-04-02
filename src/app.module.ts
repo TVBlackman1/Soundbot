@@ -3,28 +3,32 @@ import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {SequelizeModule} from '@nestjs/sequelize';
 import {UsersModule} from './users/users.module';
-import {ConfigModule} from '@nestjs/config';
 import {User} from './users/users.model';
+import {ConfigModule} from './config/config.module';
+import {ConfigService} from '@nestjs/config';
+import {ConfigFields} from './config/config.constants';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      envFilePath: `.${process.env.NODE_ENV}.env`,
-    }),
-    SequelizeModule.forRoot({
-      dialect: 'postgres',
-      host: process.env.POSTGRES_HOST || 'localhost',
-      port: Number(process.env.POSTGRES_PORT) || 5432,
-      username: process.env.POSTGRES_USER || 'postgres',
-      password: process.env.POSTGRES_PASS || 'postgres',
-      database: process.env.POSTGRES_DBNAME || 'sound_bot',
-      models: [User],
-      autoLoadModels: true,
-      synchronize: true,
+    ConfigModule,
+    SequelizeModule.forRootAsync({
+      useFactory: async (configService: ConfigService) => ({
+        dialect: 'postgres',
+        host: configService.get(ConfigFields.POSTGRES_HOST),
+        port: configService.get(ConfigFields.POSTGRES_PORT),
+        username: configService.get(ConfigFields.POSTGRES_USER),
+        password: configService.get(ConfigFields.POSTGRES_PASS),
+        database: configService.get(ConfigFields.POSTGRES_DBNAME),
+        models: [User,],
+        autoLoadModels: true,
+        synchronize: true,
+      }),
+      inject: [ConfigService,],
     }),
     UsersModule,
+    ConfigModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController,],
+  providers: [AppService,],
 })
 export class AppModule {}

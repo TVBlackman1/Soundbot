@@ -8,9 +8,9 @@ export const Roles = (...roles: Role[]) => SetMetadata(ROLES_KEY, roles);
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
-
+  
   canActivate(context: ExecutionContext) {
-    const {user} = context.switchToHttp().getRequest();
+    const {user,} = context.switchToHttp().getRequest();
     const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
       context.getHandler(),
       context.getClass(),
