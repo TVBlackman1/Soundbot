@@ -8,9 +8,9 @@ interface UserCreationAttributes {
   password: string;
 }
 
-@Table({tableName: 'users'})
+@Table({tableName: 'users',})
 export class User extends Model<User, UserCreationAttributes> {
-  @ApiProperty({example: 1})
+  @ApiProperty({example: 1,})
   @Column({
     type: DataType.INTEGER,
     unique: true,
@@ -19,7 +19,7 @@ export class User extends Model<User, UserCreationAttributes> {
   })
   id: number;
 
-  @ApiProperty({example: 'login'})
+  @ApiProperty({example: 'login',})
   @Column({
     type: DataType.STRING,
     unique: true,
@@ -27,27 +27,27 @@ export class User extends Model<User, UserCreationAttributes> {
   })
   login: string;
 
-  @ApiProperty({example: 'some@mail.ru'})
+  @ApiProperty({example: 'some@mail.ru',})
   @Column({
     type: DataType.STRING,
   })
   email: string;
 
-  @ApiProperty({example: Role.User})
+  @ApiProperty({example: Role.User,})
   @Column({
     type: DataType.STRING,
     defaultValue: Role.User,
   })
   role: string;
 
-  @ApiProperty({example: 'qwerty'})
+  @ApiProperty({example: 'qwerty',})
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
   password: string;
 
-  @ApiProperty({example: true})
+  @ApiProperty({example: true,})
   @Column({
     type: DataType.BOOLEAN,
     defaultValue: true,

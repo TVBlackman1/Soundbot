@@ -13,20 +13,21 @@ import {Role} from '../constants/role.enum';
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  @ApiOperation({summary: 'Создание пользователя'})
-  @ApiResponse({status: 200, type: User})
-  @Post()
+  @ApiOperation({summary: 'Создание пользователя',})
+  @ApiResponse({status: 200, type: User,})
+  @Post('')
   async create(@Body() userDto: CreateUserDto) {
     return await this.usersService.createUser(userDto);
   }
 
+  @ApiOperation({summary: 'Создание пользователя',})
   @Post('login')
   async login(@Body() userDto: LoginUserDto) {
     return await this.usersService.login(userDto.login, userDto.password);
   }
 
-  @ApiOperation({summary: 'Список пользователей'})
-  @ApiResponse({status: 200, type: [User]})
+  @ApiOperation({summary: 'Список пользователей',})
+  @ApiResponse({status: 200, type: [User,],})
   @UseGuards(RolesGuard)
   @Roles(Role.Admin)
   @UseGuards(JwtAuthGuard)
