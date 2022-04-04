@@ -8,7 +8,7 @@ export type EnvironmentType = keyof typeof Environment;
 
 export const ConfigFields = {
   PORT: 'PORT',
-  SECRET_KEY: 'SECRET_KEY',
+  JWT_KEY: 'JWT_KEY',
   POSTGRES_HOST: 'POSTGRES_HOST',
   POSTGRES_PORT: 'POSTGRES_PORT',
   POSTGRES_USER: 'POSTGRES_USER',

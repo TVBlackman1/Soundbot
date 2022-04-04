@@ -4,15 +4,14 @@ import {Injectable, UnauthorizedException} from '@nestjs/common';
 import {JwtModule} from '@nestjs/jwt';
 import {UsersService} from '../users/users.service';
 import {User} from '../users/users.model';
-import {ConfigService} from '@nestjs/config';
-import {ConfigFields} from '../config/config.constants';
+import {GettersConfigService} from '../config/config.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt-user') {
-  constructor(private usersService: UsersService, private configService: ConfigService) {
+  constructor(private usersService: UsersService, private configService: GettersConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromHeader('access_token'),
-      secretOrKey: configService.get(ConfigFields.SECRET_KEY),
+      secretOrKey: configService.JWT_KEY,
       ignoreExpiration: true,
     });
   }
@@ -30,8 +29,8 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt-user') {
 }
 
 export const JwtLocalModule = JwtModule.registerAsync({
-  useFactory: async (configService: ConfigService) => ({
-    secret: configService.get(ConfigFields.SECRET_KEY),
+  useFactory: async (configService: GettersConfigService) => ({
+    secret: configService.JWT_KEY,
   }),
-  inject: [ConfigService,],
+  inject: [GettersConfigService,],
 });
