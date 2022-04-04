@@ -8,11 +8,10 @@ export class MusicTrackService {
   constructor(@InjectModel(MusicTrack) private trackRepository: typeof MusicTrack) {}
   
   // eslint-disable-next-line no-undef
-  async download(user: User, file: Express.Multer.File) {
+  public async download(user: User, file: Express.Multer.File) {
     if (!file) {
       throw new NoFileException();
     }
-    
     const savedTrack = await this.trackRepository.create({
       name: file.originalname,
       path: file.path,

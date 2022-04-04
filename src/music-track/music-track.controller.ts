@@ -1,4 +1,4 @@
-import {Controller, Post, Req, UploadedFile, UseGuards, UseInterceptors} from '@nestjs/common';
+import {Controller, Post, Query, Req, UploadedFile, UseGuards, UseInterceptors} from '@nestjs/common';
 import {MusicTrackService} from './music-track.service';
 import {FileInterceptor} from '@nestjs/platform-express';
 import {JwtAuthGuard} from '../auth/jwt.guard';

@@ -6,21 +6,23 @@ And pick hook of song for playing it. It's necessary for TRPG/TTRPG games.
 
 ## Run project
 
-#### as standard nodejs application
+#### a) Standard  Node JS application
 1. Create .development.env or .production.env file and check content by example.
 2. Install all dependencies of project
-```
+```shell
 npm install
 ```
 3. Start project
-```
+```console
 npm run start:dev
-# -- or --
+```
+or for production version
+```shell
 npm run start:prod
 ```
 
-#### as docker container
-Project doesn't have docker support (temporarily)
+#### b) Docker container
+<em>soon</em>
 
 ## License
 
