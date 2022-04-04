@@ -13,7 +13,7 @@ And pick hook of song for playing it. It's necessary for TRPG/TTRPG games.
 npm install
 ```
 3. Start project
-```console
+```shell
 npm run start:dev
 ```
 or for production version
