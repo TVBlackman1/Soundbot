@@ -5,8 +5,9 @@ import {User} from '../users/users.model';
 
 @Injectable()
 export class MusicTrackService {
-  constructor(@InjectModel(MusicTrack) private trackRepository: typeof MusicTrack) {
-  }
+  constructor(@InjectModel(MusicTrack) private trackRepository: typeof MusicTrack) {}
+  
+  // eslint-disable-next-line no-undef
   async download(user: User, file: Express.Multer.File) {
     if (!file) {
       throw new NoFileException();

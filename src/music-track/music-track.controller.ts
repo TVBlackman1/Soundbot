@@ -6,7 +6,7 @@ import {User} from '../users/users.model';
 import {ApiOperation, ApiTags} from '@nestjs/swagger';
 
 @ApiTags('Треки')
-@Controller('music-track')
+@Controller('music-tracks')
 export class MusicTrackController {
   constructor(private musicTrackService: MusicTrackService) {}
   
@@ -14,6 +14,7 @@ export class MusicTrackController {
   @Post('/upload')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file'))
+  // eslint-disable-next-line no-undef
   public async downloadMusicTrack(@Req() req, @UploadedFile() file: Express.Multer.File) {
     const user = req.user as User;
     return await this.musicTrackService.download(user, file);

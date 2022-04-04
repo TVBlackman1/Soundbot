@@ -1,9 +1,8 @@
 import {NestFactory} from '@nestjs/core';
 import {AppModule} from './app.module';
 import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger';
-import {ConfigService} from '@nestjs/config';
 import {ValidationPipe} from '@nestjs/common';
-import {ConfigFields} from './config/config.constants';
+import {GettersConfigService} from './config/config.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {cors: true,});
@@ -16,8 +15,8 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('/api/docs', app, document);
 
-  const configService = app.get(ConfigService);
-  const PORT = configService.get<number>(ConfigFields.PORT);
+  const configService = app.get(GettersConfigService);
+  const PORT = configService.PORT;
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(PORT, () => {
     console.log(`App is listening at ${PORT}`);

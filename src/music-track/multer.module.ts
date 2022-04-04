@@ -6,6 +6,7 @@ const storage = diskStorage({
   destination(req, file, cb) {
     cb(null, './upload');
   },
+  // eslint-disable-next-line no-undef
   filename(req, file: Express.Multer.File, cb) {
     const uniqueSymbols = Date.now() + '-' + Math.round(Math.random() * 1E9);
     const extension = mime.extension(file.mimetype);
