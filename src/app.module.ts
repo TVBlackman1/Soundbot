@@ -7,6 +7,7 @@ import {User} from './users/users.model';
 import {ConfigModule} from './config/config.module';
 import {MusicTrackModule} from './music-track/music-track.module';
 import {GettersConfigService} from './config/config.service';
+import { ProjectsModule } from './projects/projects.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import {GettersConfigService} from './config/config.service';
     UsersModule,
     ConfigModule,
     MusicTrackModule,
+    ProjectsModule,
   ],
   controllers: [AppController,],
   providers: [AppService,],
