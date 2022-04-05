@@ -1,3 +1,5 @@
+import {UserId} from './full-user';
+
 export class JwtFormat {
-  id: number;
+  id: UserId;
 }
