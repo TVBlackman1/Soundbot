@@ -38,7 +38,7 @@ module.exports = {
     'space-infix-ops': 'error',
     'linebreak-style': [
       'error',
-      'windows',
+      'unix',
     ],
     'quotes': [
       'error',

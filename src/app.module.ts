@@ -7,8 +7,8 @@ import {User} from './users/users.model';
 import {ConfigModule} from './config/config.module';
 import {MusicTrackModule} from './music-track/music-track.module';
 import {GettersConfigService} from './config/config.service';
-import { ProjectsModule } from './projects/projects.module';
-import { PlaylistsModule } from './playlists/playlists.module';
+import {ProjectsModule} from './projects/projects.module';
+import {PlaylistsModule} from './playlists/playlists.module';
 
 @Module({
   imports: [
