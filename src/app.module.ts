@@ -9,6 +9,7 @@ import {MusicTrackModule} from './music-track/music-track.module';
 import {GettersConfigService} from './config/config.service';
 import {ProjectsModule} from './projects/projects.module';
 import {PlaylistsModule} from './playlists/playlists.module';
+import { HooksModule } from './hooks/hooks.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import {PlaylistsModule} from './playlists/playlists.module';
     MusicTrackModule,
     ProjectsModule,
     PlaylistsModule,
+    HooksModule,
   ],
   controllers: [AppController,],
   providers: [AppService,],
